@@ -5,22 +5,16 @@ import {NgModule} from '@angular/core';
 const routes: Routes = [
   {
     path: '',
+    component: TaskComponent,
     data: {
       title: 'Tasks'
     },
-    children: [
-      {
-        path: '',
-        redirectTo: 'tasks'
-      },
-      {
-        path: 'tasks',
-        data: {
-          title: ''
-        },
-        component: TaskComponent
-      }
-    ]
+    // children: [
+    //   {
+    //     path: '',
+    //     redirectTo: 'tasks'
+    //   }
+    // ]
   }
 ];
 
