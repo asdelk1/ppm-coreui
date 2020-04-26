@@ -1,21 +1,38 @@
 import {RouterModule, Routes} from '@angular/router';
 import {TaskComponent} from './task.component';
 import {NgModule} from '@angular/core';
+import {TaskDetailComponent} from './task-detail/task-detail.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: TaskComponent,
     data: {
       title: 'Tasks'
     },
-    // children: [
-    //   {
-    //     path: '',
-    //     redirectTo: 'tasks'
-    //   }
-    // ]
-  }
+    children: [
+      {
+        path: '',
+        component: TaskComponent,
+        data: {
+          title: ''
+        }
+      },
+      {
+        path: 'details',
+        component: TaskDetailComponent,
+        data: {
+          title: 'Details'
+        }
+      }
+    ]
+  },
+  // {
+  //   path: 'details',
+  //   component: TaskDetailComponent,
+  //   data: {
+  //     title: ''
+  //   }
+  // }
 ];
 
 @NgModule({
@@ -24,4 +41,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class TaskRoutingModule {}
+export class TaskRoutingModule {
+}

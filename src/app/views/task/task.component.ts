@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode} from '../../controls/list/list.intefaces';
 import {DummyDataService} from '../../services/DummyDataService.service';
 import {Task} from '../../models/task.model';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
   selector: 'app-task',
@@ -55,7 +56,10 @@ export class TaskComponent implements OnInit {
 
   public taskData: Task[];
 
-  constructor(private dataService: DummyDataService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private dataService: DummyDataService) {
   }
 
   ngOnInit(): void {
@@ -63,6 +67,21 @@ export class TaskComponent implements OnInit {
   }
 
   handleActions(action: ListActionExecute) {
-    console.log(JSON.stringify(action));
+    switch (action.name) {
+      case 'taskDetails':
+        this.navigateToDetails(action.selection);
+        break;
+      default:
+    }
+  }
+
+  private navigateToDetails(data: any): void {
+    const filterParams: Params = {
+      'id': data.id
+    };
+    this.router.navigate(['details'], {
+      relativeTo: this.route,
+      queryParams: filterParams
+    });
   }
 }

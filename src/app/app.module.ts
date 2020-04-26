@@ -12,7 +12,7 @@ import {P404Component} from './views/error/404.component';
 import {P500Component} from './views/error/500.component';
 import {LoginComponent} from './views/login/login.component';
 import {RegisterComponent} from './views/register/register.component';
-import {AppAsideModule, AppBreadcrumbModule, AppFooterModule, AppHeaderModule, AppSidebarModule} from '@coreui/angular';
+import {AppAsideModule, AppBreadcrumbModule, AppFooterModule, AppHeaderModule, AppSidebarModule,} from '@coreui/angular';
 // Import routing module
 import {AppRoutingModule} from './app.routing';
 // Import 3rd party components
@@ -29,7 +29,6 @@ const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
 
-// @ts-ignore
 @NgModule({
   imports: [
     BrowserModule,
@@ -57,7 +56,9 @@ const APP_CONTAINERS = [
     provide: LocationStrategy,
     useClass: HashLocationStrategy,
   },
-    DummyDataService],
-  bootstrap: [ AppComponent ]
+    DummyDataService
+  ],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
