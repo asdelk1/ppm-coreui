@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {InputField} from '../../../controls/input-field/input-field.interfaces';
+import {InputField} from '../../../controls/form/form.interfaces';
 import {DummyDataService} from '../../../services/DummyDataService.service';
 
 @Component({
@@ -29,6 +29,10 @@ export class TaskDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.record = this.dataService.getTaskData()[0];
+  }
+
+  public saveTask(data: any) {
+    console.log(JSON.stringify(data));
   }
 
 }

@@ -3,6 +3,7 @@ export interface InputField {
   label: string;
   size?: InputFieldSize;
   editable?: (data: any) => boolean | boolean;
+  required?: boolean;
 }
 
 export enum InputFieldSize {

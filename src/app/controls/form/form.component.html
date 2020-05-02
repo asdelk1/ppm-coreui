@@ -2,20 +2,50 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="card">
-        <div class="card-header">
-          <strong>{{label}}</strong>
-          <!--          <small>Details</small>-->
-          <!--          <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>-->
-          <!--          <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>-->
-        </div>
-        <div class="card-body">
-          <div *ngFor="let inputField of fields">
-            <app-input-field
-              [field]="inputField"
-              [record]="record"
-            ></app-input-field>
+        <form (ngSubmit)="onFormSubmit()" [formGroup]="form" class="form-horizontal">
+          <div class="card-header">
+            <strong>{{label}}</strong>
+            <!--          <small>Details</small>-->
+            <span class="pull-right">
+              <button
+                (click)="editMode()"
+                *ngIf="!edit && isEditable"
+                class="btn btn-secondary btn-sm"><i class="cui-pencil icons"></i>
+              </button>
+            </span>
           </div>
-        </div>
+          <div class="card-body">
+            <div class="row">
+              <div *ngFor="let inputField of fields">
+                <div [ngClass]="inputField.size? inputField.size : ''" class="form-group input-field">
+                  <label for="{{inputField.name}}">{{inputField.label}}</label>
+                  <input [class.editable-field]="edit"
+                         [formControlName]="inputField.name"
+                         [readonly]="!edit"
+                         class="form-control"
+                         id="{{inputField.name}}"
+                         type="text">
+                  <span class="invalid-feedback">{{getErrorMessage(inputField.name)}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div *ngIf="edit">
+              <button
+                [disabled]="form.invalid"
+                class="btn btn-sm btn-success"
+                type="submit">
+                Save
+              </button>
+              <button (click)="onButtonReset()"
+                      class="btn btn-sm btn-danger"
+                      type="type">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div><!--/.col-->
   </div><!--/.row-->

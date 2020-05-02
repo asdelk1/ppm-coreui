@@ -1,4 +1,5 @@
 <app-form
   label="Task"
   [fields]="formFields"
+  (onSubmit)="saveTask($event)"
   [record]="record"></app-form>
