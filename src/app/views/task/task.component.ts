@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode} from '../../controls/list/list.intefaces';
-import {DummyDataService} from '../../services/DummyDataService.service';
-import {Task} from '../../models/task.model';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ODPClientService} from '../../services/odpclient.service';
+import {EntityRecord, EntityResponse} from '../../models/record.model';
 
 @Component({
   selector: 'app-task',
@@ -13,7 +13,7 @@ export class TaskComponent implements OnInit {
 
   public headers: ListHeaderColumn[] = [
     {
-      name: 'id',
+      name: 'taskId',
       label: 'ID'
     },
     {
@@ -21,8 +21,8 @@ export class TaskComponent implements OnInit {
       label: 'Name'
     },
     {
-      name: 'state',
-      label: 'State',
+      name: 'dateCreated',
+      label: 'Created Date',
       badge: [
         {
           expression: (data: any) => data['state'] && data['state'] === 'Open',
@@ -33,7 +33,31 @@ export class TaskComponent implements OnInit {
           color: 'danger'
         }
       ]
-    }
+    },
+    {
+      name: 'earlyStart',
+      label: 'Early Start'
+    },
+    {
+      name: 'earlyFinish',
+      label: 'Early Finish'
+    },
+    {
+      name: 'lateStart',
+      label: 'Early Start'
+    },
+    {
+      name: 'lateFinish',
+      label: 'Late Finish'
+    },
+    {
+      name: 'freeFloat',
+      label: 'Free Float'
+    },
+    {
+      name: 'totalFloat',
+      label: 'Total Float'
+    },
   ];
 
   public actions: ListAction[] = [
@@ -54,16 +78,21 @@ export class TaskComponent implements OnInit {
     }
   ];
 
-  public taskData: Task[];
+  public taskData: EntityRecord[];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DummyDataService) {
+    private oDataService: ODPClientService) {
   }
 
   ngOnInit(): void {
-    this.taskData = this.dataService.getTaskData();
+    this.oDataService.readEntitySet('Tasks')
+      .subscribe(
+        (result: EntityResponse) => {
+          this.taskData = <EntityRecord[]>result.data;
+        }
+      );
   }
 
   handleActions(action: ListActionExecute) {

@@ -12,7 +12,7 @@ import {P404Component} from './views/error/404.component';
 import {P500Component} from './views/error/500.component';
 import {LoginComponent} from './views/login/login.component';
 import {RegisterComponent} from './views/register/register.component';
-import {AppAsideModule, AppBreadcrumbModule, AppFooterModule, AppHeaderModule, AppSidebarModule,} from '@coreui/angular';
+import {AppAsideModule, AppBreadcrumbModule, AppFooterModule, AppHeaderModule, AppSidebarModule} from '@coreui/angular';
 // Import routing module
 import {AppRoutingModule} from './app.routing';
 // Import 3rd party components
@@ -20,6 +20,8 @@ import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ChartsModule} from 'ng2-charts';
 import {DummyDataService} from './services/DummyDataService.service';
+import {ODPClientService} from './services/odpclient.service';
+import {HttpClientModule} from '@angular/common/http';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -42,7 +44,8 @@ const APP_CONTAINERS = [
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    HttpClientModule
   ],
   declarations: [
     AppComponent,
@@ -56,7 +59,8 @@ const APP_CONTAINERS = [
     provide: LocationStrategy,
     useClass: HashLocationStrategy,
   },
-    DummyDataService
+    DummyDataService,
+    ODPClientService
   ],
   bootstrap: [AppComponent]
 })

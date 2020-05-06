@@ -1,3 +1,5 @@
+import {EntityRecord} from '../../models/record.model';
+
 export interface ListHeaderColumn {
   name: string;
   label: string;
@@ -8,7 +10,7 @@ export interface Row {
   rowId: string;
   columns: Column[];
   isSelected: boolean;
-  data: any;
+  data: EntityRecord;
 }
 
 export interface Column {
@@ -25,7 +27,7 @@ export enum ListSelectionMode {
 export interface ListAction {
   name: string;
   label: string;
-  enable?: (data: any) => boolean;
+  enable?: (data: EntityRecord) => boolean;
   color?: string;
   icon?: string;
   selectMode: ListSelectionMode;

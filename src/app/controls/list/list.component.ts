@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActionButton, Column, ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode, Row} from './list.intefaces';
+import {EntityRecord} from '../../models/record.model';
 
 @Component({
   selector: 'app-list',
@@ -36,7 +37,10 @@ export class ListComponent implements OnInit {
   }
 
   @Input('rows')
-  set data(records: any[]) {
+  set data(records: EntityRecord[]) {
+    if (!records || records.length === 0) {
+      return;
+    }
     this.rows = [];
     records.forEach((record: any) => {
       const rowColumns: Column[] = [];

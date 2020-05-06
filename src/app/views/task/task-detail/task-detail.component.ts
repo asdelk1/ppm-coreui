@@ -12,10 +12,12 @@ export class TaskDetailComponent implements OnInit {
   formFields: InputField[] = [
     {
       name: 'id',
+      type: 'input',
       label: 'ID'
     },
     {
       name: 'name',
+      type: 'input',
       label: 'Task Name'
     }
   ];
