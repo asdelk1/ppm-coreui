@@ -3,7 +3,7 @@ import {EntityRecord} from '../../models/record.model';
 export interface ListHeaderColumn {
   name: string;
   label: string;
-  badge?: { expression: (data: any) => boolean, color: string }[];
+  badge?: { expression: (EntityRecord: any) => boolean, color: string }[];
 }
 
 export interface Row {

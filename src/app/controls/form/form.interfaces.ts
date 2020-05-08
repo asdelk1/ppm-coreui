@@ -1,9 +1,17 @@
 export interface InputField {
   name: string;
   label: string;
+  type: string;
   size?: InputFieldSize;
   editable?: (data: any) => boolean | boolean;
   required?: boolean;
+}
+
+export enum InputFieldType {
+  Text,
+  Boolean,
+  Reference,
+  DateTime
 }
 
 export enum InputFieldSize {

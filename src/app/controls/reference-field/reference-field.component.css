@@ -1,0 +1,16 @@
+.search-drop-down {
+  position: static;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+  opacity: 0.98;
+}
+
+
+.editable-field {
+  border: 1px solid black;
+}
+
+input[readonly] {
+  background-color: transparent;
+}

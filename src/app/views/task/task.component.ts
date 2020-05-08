@@ -25,11 +25,11 @@ export class TaskComponent implements OnInit {
       label: 'Created Date',
       badge: [
         {
-          expression: (data: any) => data['state'] && data['state'] === 'Open',
+          expression: (data: EntityRecord) => data['state'] && data['state'] === 'Open',
           color: 'success'
         },
         {
-          expression: (data: any) => data['state'] && data['state'] === 'Close',
+          expression: (data: EntityRecord) => data['state'] && data['state'] === 'Close',
           color: 'danger'
         }
       ]

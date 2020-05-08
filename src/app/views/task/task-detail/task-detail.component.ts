@@ -19,6 +19,11 @@ export class TaskDetailComponent implements OnInit {
       name: 'name',
       type: 'input',
       label: 'Task Name'
+    },
+    {
+      name: 'Assignee',
+      type: 'reference',
+      label: 'Assignee'
     }
   ];
 
