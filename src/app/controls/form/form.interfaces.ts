@@ -5,6 +5,8 @@ export interface InputField {
   size?: InputFieldSize;
   editable?: (data: any) => boolean | boolean;
   required?: boolean;
+  childFields?: string[];
+  separator?: string;
 }
 
 export enum InputFieldType {

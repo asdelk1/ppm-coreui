@@ -98,7 +98,7 @@ export class TaskComponent implements OnInit {
   handleActions(action: ListActionExecute) {
     switch (action.name) {
       case 'taskDetails':
-        this.navigateToDetails(action.selection);
+        this.navigateToDetails(action.selection[0]);
         break;
       default:
     }
@@ -106,11 +106,11 @@ export class TaskComponent implements OnInit {
 
   private navigateToDetails(data: any): void {
     const filterParams: Params = {
-      'id': data.id
+      'filter': 'taskId eq \'' + data['taskId'] + '\''
     };
     this.router.navigate(['details'], {
       relativeTo: this.route,
-      queryParams: filterParams
+      queryParams: filterParams,
     });
   }
 }

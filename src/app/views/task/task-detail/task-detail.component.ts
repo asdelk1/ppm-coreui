@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {InputField} from '../../../controls/form/form.interfaces';
 import {DummyDataService} from '../../../services/DummyDataService.service';
+import {ActivatedRoute, Params} from '@angular/router';
+import {ODPClientService} from '../../../services/odpclient.service';
 
 @Component({
   selector: 'app-task-detail',
@@ -11,7 +13,7 @@ export class TaskDetailComponent implements OnInit {
 
   formFields: InputField[] = [
     {
-      name: 'id',
+      name: 'taskId',
       type: 'input',
       label: 'ID'
     },
@@ -21,21 +23,27 @@ export class TaskDetailComponent implements OnInit {
       label: 'Task Name'
     },
     {
-      name: 'Assignee',
+      name: 'assignee',
       type: 'reference',
-      label: 'Assignee'
+      label: 'Assignee',
+      separator: ' ',
+      childFields: ['firstName', 'lastName']
     }
   ];
 
   record: any;
 
   constructor(
-    private dataService: DummyDataService
+    private route: ActivatedRoute,
+    private odp: ODPClientService
   ) {
   }
 
   ngOnInit(): void {
-    this.record = this.dataService.getTaskData()[0];
+    const filterParams: string = this.route.snapshot.queryParams['filter'];
+    this.odp.readEntitySet('Tasks', filterParams, ['assignee']).subscribe(
+      (result: any) => this.record = result.data[0]
+    );
   }
 
   public saveTask(data: any) {

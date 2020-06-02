@@ -1,6 +1,8 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {EntityRecord} from '../../models/record.model';
+import {InputField} from '../form/form.interfaces';
+
 
 @Component({
   selector: 'app-reference-field',
@@ -8,27 +10,16 @@ import {EntityRecord} from '../../models/record.model';
   styleUrls: ['./reference-field.component.css'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class ReferenceFieldComponent implements OnInit {
-
-  public users: EntityRecord[] = [
-    {
-      'entityId': 'ASDELK',
-      'personId': 1,
-      'firstName': 'Asitha',
-      'lastName': 'De Alwis',
-      'department': 'Gantt'
-    },
-    {
-      'entityId': 'KUMJLK',
-      'personId': 2,
-      'firstName': 'Kumeri',
-      'lastName': 'Jayasenthu',
-      'department': 'Calendar'
-    }
-  ];
+export class ReferenceFieldComponent implements OnInit, OnChanges {
 
   @Input()
   public edit: boolean = false;
+
+  @Input()
+  public record: any;
+
+  @Input()
+  metadata: InputField;
 
   public displayName: string = 'firstName';
 
@@ -44,15 +35,34 @@ export class ReferenceFieldComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setValue();
     this.inputField.valueChanges.subscribe(
       (keyword: string) => {
         this.filterResult = [];
-        this.filterResult = this.users.filter(
-          (user: EntityRecord) => (user['firstName'] as string).includes(keyword)
-        );
+        // this.filterResult = this.users.filter(
+        //   (user: EntityRecord) => (user['firstName'] as string).includes(keyword)
+        // );
         this.showDropdown = this.filterResult.length > 0;
       }
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+      this.setValue();
+  }
+
+  setValue(): void {
+    if (this.record && this.metadata) {
+      const fields: string[] = this.metadata.childFields;
+      if (fields.length > 2) {
+        console.error(`Reference field ${this.metadata.name} has more than 2 child fields`);
+        return;
+      }
+      const childRecord: any = this.record[this.metadata.name];
+      const fieldValues: string[] = fields.map((field: string) => childRecord[field]);
+      const inputFieldValue: string = fieldValues.join(this.metadata.separator);
+      this.inputField.setValue(inputFieldValue);
+    }
   }
 
   public onDropdownItemClick(itemRecord: EntityRecord): void {

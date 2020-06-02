@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {EntityRecord} from '../models/record.model';
 
@@ -9,20 +9,28 @@ import {EntityRecord} from '../models/record.model';
 })
 export class ODPClientService {
 
-  private readonly BASE_END_POINT: string = 'http://localhost:8080/ppmodataprovider/PpmService.svc/';
+  private readonly BASE_END_POINT: string = 'http://localhost:8080/ppm-odata-provider/PpmService.svc/';
 
   constructor(
     private httpClient: HttpClient
   ) {
   }
 
-  public readEntitySet(entitySet: string, conditions?: string): Observable<any> {
-    let url: string = this.BASE_END_POINT + entitySet;
+  public readEntitySet(entitySet: string, conditions?: string, expand?: string[]): Observable<any> {
+    const url: string = this.BASE_END_POINT + entitySet;
+    let params: HttpParams = new HttpParams();
     if (conditions) {
-      url += '?$filter=' + conditions;
+      // url += '?$filter=' + conditions;
+      params = params.set('$filter', conditions);
     }
+
+    if (expand) {
+      params = params.set('$expand', expand.join(','));
+    }
+
     return this.httpClient.get(url, {
-      observe: 'body'
+      observe: 'body',
+      params: params
     }).pipe(
       map((response) => {
           let singleton: boolean = false;

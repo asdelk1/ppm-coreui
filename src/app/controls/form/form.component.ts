@@ -72,7 +72,7 @@ export class FormComponent implements OnInit, OnChanges {
       if (field.required) {
         validators.push(Validators.required);
       }
-      controls[field.name] = new FormControl(this.record[field.name] ? this.record[field.name] : null, validators);
+      controls[field.name] = new FormControl(this.record && this.record[field.name] ? this.record[field.name] : null, validators);
     }
     this.form = new FormGroup(controls);
   }
