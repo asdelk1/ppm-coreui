@@ -27,7 +27,9 @@ export class TaskDetailComponent implements OnInit {
       type: 'reference',
       label: 'Assignee',
       separator: ' ',
-      childFields: ['firstName', 'lastName']
+      childFields: ['firstName', 'lastName'],
+      targetDatasource: 'Persons',
+      filterFields: ['firstName', 'lastName']
     }
   ];
 

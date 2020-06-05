@@ -1,7 +1,9 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {EntityRecord} from '../../models/record.model';
+import {EntityRecord, EntityResponse} from '../../models/record.model';
 import {InputField} from '../form/form.interfaces';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {ODPClientService} from '../../services/odpclient.service';
 
 
 @Component({
@@ -16,63 +18,94 @@ export class ReferenceFieldComponent implements OnInit, OnChanges {
   public edit: boolean = false;
 
   @Input()
-  public record: any;
+  public parentRecord: any;
 
   @Input()
   metadata: InputField;
+
+  @Input()
+  datasource: string;
 
   public displayName: string = 'firstName';
 
   public filterResult: EntityRecord[] = [];
 
-  public showDropdown: boolean = false;
+  public isDropdownVisible: boolean = false;
 
   public inputField: FormControl = new FormControl();
 
   private selectedRecord: EntityRecord;
 
-  constructor() {
+  constructor(
+    private odpClientService: ODPClientService
+  ) {
   }
 
   ngOnInit(): void {
-    this.setValue();
-    this.inputField.valueChanges.subscribe(
-      (keyword: string) => {
-        this.filterResult = [];
-        // this.filterResult = this.users.filter(
-        //   (user: EntityRecord) => (user['firstName'] as string).includes(keyword)
-        // );
-        this.showDropdown = this.filterResult.length > 0;
-      }
-    );
+    if (this.datasource) {
+      this.inputField.valueChanges.pipe(
+        tap((data: any) => console.log(JSON.stringify(data))),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((term: string | number) => {
+          let condition: string | undefined;
+          if (this.metadata.filterFields && this.metadata.filterFields.length > 0) {
+            condition = '';
+            this.metadata.filterFields.forEach(
+              (field: string) => {
+                if (condition !== '') {
+                  condition += ' or ';
+                }
+
+                condition += 'startswith(' + field + ',' + (typeof term === 'string' ? '\'' + term + '\'' : term.toString()) + ')';
+              }
+            );
+          }
+          return this.odpClientService.readEntitySet(this.datasource, condition);
+        })
+      ).subscribe((result: EntityResponse) => {
+        this.filterResult = result.data as EntityRecord[];
+        this.showDropdown();
+      });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-      this.setValue();
+    if (this.parentRecord) {
+      this.selectedRecord = this.parentRecord[this.metadata.name] as EntityRecord;
+      this.inputField.setValue(this.getDisplayText());
+    }
   }
 
-  setValue(): void {
-    if (this.record && this.metadata) {
+  getDisplayText(): string {
+    if (this.selectedRecord && this.metadata) {
       const fields: string[] = this.metadata.childFields;
       if (fields.length > 2) {
         console.error(`Reference field ${this.metadata.name} has more than 2 child fields`);
         return;
       }
-      const childRecord: any = this.record[this.metadata.name];
-      const fieldValues: string[] = fields.map((field: string) => childRecord[field]);
+      const fieldValues: string[] = fields.map((field: string) => (this.selectedRecord[field]).toString());
       const inputFieldValue: string = fieldValues.join(this.metadata.separator);
-      this.inputField.setValue(inputFieldValue);
+      return inputFieldValue;
     }
   }
 
+  private showDropdown(): void {
+    this.isDropdownVisible = this.filterResult.length > 0 && this.edit;
+  }
+
+  private hideDropDown(): void {
+    this.isDropdownVisible = false;
+  }
+
   public onDropdownItemClick(itemRecord: EntityRecord): void {
-    this.showDropdown = false;
-    this.inputField.setValue(itemRecord['firstName']);
+    this.hideDropDown();
     this.selectedRecord = itemRecord;
+    this.inputField.setValue(this.getDisplayText());
   }
 
   public clickOutside(): void {
-    this.showDropdown = false;
+    this.hideDropDown();
   }
 
 }

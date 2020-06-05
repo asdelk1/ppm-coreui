@@ -6,7 +6,9 @@ export interface InputField {
   editable?: (data: any) => boolean | boolean;
   required?: boolean;
   childFields?: string[];
+  filterFields?: string[];
   separator?: string;
+  targetDatasource?: string;
 }
 
 export enum InputFieldType {

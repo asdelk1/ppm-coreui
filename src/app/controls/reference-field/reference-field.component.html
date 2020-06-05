@@ -13,7 +13,7 @@
                   <button class="btn btn-secondary" type="button"><i class="cui-dashboard"></i></button>
                 </span>
   </div>
-  <div (clickedOutside)="clickOutside()" *ngIf="showDropdown && filterResult.length > 0" appClickOutside>
+  <div (clickedOutside)="clickOutside()" *ngIf="isDropdownVisible" appClickOutside>
     <div *ngFor="let result of filterResult" class="list-group">
       <a (click)="onDropdownItemClick(result)" class="list-group-item search-drop-down">{{result[displayName]}}</a>
     </div>
