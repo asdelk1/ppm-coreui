@@ -9,13 +9,16 @@
       id="appendedInputButton"
       size="16"
       type="text">
-    <span class="input-group-append">
+    <span *ngIf="!edit" class="input-group-append">
                   <button class="btn btn-secondary" type="button"><i class="cui-dashboard"></i></button>
                 </span>
   </div>
   <div (clickedOutside)="clickOutside()" *ngIf="isDropdownVisible" appClickOutside>
     <div *ngFor="let result of filterResult" class="list-group">
-      <a (click)="onDropdownItemClick(result)" class="list-group-item search-drop-down">{{result[displayName]}}</a>
+      <a (click)="onDropdownItemClick(result)" class="list-group-item search-drop-down">
+        <h6>{{getReferenceHeader(result)}}</h6>
+        <p *ngFor="let textField of metadata.referenceItem.fields">{{result[textField]}}</p>
+      </a>
     </div>
   </div>
 </div>

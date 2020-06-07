@@ -5,10 +5,17 @@ export interface InputField {
   size?: InputFieldSize;
   editable?: (data: any) => boolean | boolean;
   required?: boolean;
-  childFields?: string[];
+  displayFields?: string[];
   filterFields?: string[];
+  referenceField?: string[];
   separator?: string;
   targetDatasource?: string;
+  referenceItem?: ReferenceItem;
+}
+
+export interface ReferenceItem {
+  headerField: string[];
+  fields: string[];
 }
 
 export enum InputFieldType {

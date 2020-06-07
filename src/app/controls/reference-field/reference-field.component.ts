@@ -26,8 +26,6 @@ export class ReferenceFieldComponent implements OnInit, OnChanges {
   @Input()
   datasource: string;
 
-  public displayName: string = 'firstName';
-
   public filterResult: EntityRecord[] = [];
 
   public isDropdownVisible: boolean = false;
@@ -79,14 +77,13 @@ export class ReferenceFieldComponent implements OnInit, OnChanges {
 
   getDisplayText(): string {
     if (this.selectedRecord && this.metadata) {
-      const fields: string[] = this.metadata.childFields;
+      const fields: string[] = this.metadata.displayFields;
       if (fields.length > 2) {
         console.error(`Reference field ${this.metadata.name} has more than 2 child fields`);
         return;
       }
       const fieldValues: string[] = fields.map((field: string) => (this.selectedRecord[field]).toString());
-      const inputFieldValue: string = fieldValues.join(this.metadata.separator);
-      return inputFieldValue;
+      return fieldValues.join(this.metadata.separator);
     }
   }
 
@@ -96,6 +93,11 @@ export class ReferenceFieldComponent implements OnInit, OnChanges {
 
   private hideDropDown(): void {
     this.isDropdownVisible = false;
+  }
+
+  public getReferenceHeader(record: EntityRecord): string {
+    const fieldValues: string[] = this.metadata.referenceItem.headerField.map((field: string) => (record[field]).toString());
+    return fieldValues.join(' ');
   }
 
   public onDropdownItemClick(itemRecord: EntityRecord): void {

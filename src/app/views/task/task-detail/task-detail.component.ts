@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InputField} from '../../../controls/form/form.interfaces';
-import {DummyDataService} from '../../../services/DummyDataService.service';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ODPClientService} from '../../../services/odpclient.service';
 
 @Component({
@@ -27,9 +26,13 @@ export class TaskDetailComponent implements OnInit {
       type: 'reference',
       label: 'Assignee',
       separator: ' ',
-      childFields: ['firstName', 'lastName'],
+      displayFields: ['firstName', 'lastName'],
       targetDatasource: 'Persons',
-      filterFields: ['firstName', 'lastName']
+      filterFields: ['firstName', 'lastName'],
+      referenceItem: {
+        headerField: ['firstName', 'lastName'],
+        fields: ['department']
+      }
     }
   ];
 
