@@ -3,6 +3,7 @@ import {ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode} from
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ODPClientService} from '../../services/odpclient.service';
 import {EntityRecord, EntityResponse} from '../../models/record.model';
+import {InputField} from '../../controls/form/form.interfaces';
 
 @Component({
   selector: 'app-task',
@@ -10,6 +11,8 @@ import {EntityRecord, EntityResponse} from '../../models/record.model';
   styleUrls: ['./task.component.css']
 })
 export class TaskComponent implements OnInit {
+
+  public showTaskCreateDialog: boolean = false;
 
   public headers: ListHeaderColumn[] = [
     {
@@ -60,6 +63,33 @@ export class TaskComponent implements OnInit {
     },
   ];
 
+  formFields: InputField[] = [
+    {
+      name: 'taskId',
+      type: 'input',
+      label: 'ID'
+    },
+    {
+      name: 'name',
+      type: 'input',
+      label: 'Task Name'
+    },
+    {
+      name: 'assignee',
+      type: 'reference',
+      label: 'Assignee',
+      separator: ' ',
+      displayFields: ['firstName', 'lastName'],
+      targetDatasource: 'Persons',
+      filterFields: ['firstName', 'lastName'],
+      referenceItem: {
+        headerField: ['firstName', 'lastName'],
+        fields: ['department']
+      }
+    }
+  ];
+
+
   public actions: ListAction[] = [
     {
       name: 'addTask',
@@ -97,11 +127,18 @@ export class TaskComponent implements OnInit {
 
   handleActions(action: ListActionExecute) {
     switch (action.name) {
+      case 'addTask':
+        this.createTask();
+        break;
       case 'taskDetails':
         this.navigateToDetails(action.selection[0]);
         break;
       default:
     }
+  }
+
+  private createTask(): void {
+    this.showTaskCreateDialog = true;
   }
 
   private navigateToDetails(data: any): void {

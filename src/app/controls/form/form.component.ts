@@ -45,6 +45,7 @@ export class FormComponent implements OnInit, OnChanges {
 
 
   onFormSubmit(): void {
+    console.log(this.form.value);
     this.onSubmit.emit(this.form.value);
     this.editMode();
   }

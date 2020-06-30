@@ -37,7 +37,9 @@
                       [metadata]="inputField"
                       [parentRecord]="record"
                       [datasource]="inputField.targetDatasource"
-                      id="referenceField"></app-reference-field>
+                      [formControlName]="inputField.name"
+                      id="ref-{{inputField.name}}">
+                    </app-reference-field>
 
                     <!--                    <div class="input-group">-->
                     <!--                      <input id="appendedInputButton" class="form-control" size="16" type="text">-->

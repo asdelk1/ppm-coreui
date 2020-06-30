@@ -6,6 +6,8 @@ import {ListModule} from '../../controls/list/list.module';
 import {DummyDataService} from '../../services/DummyDataService.service';
 import {TaskDetailComponent} from './task-detail/task-detail.component';
 import {FormModule} from '../../controls/form/form.module';
+import {DialogComponent} from '../../controls/dialog/dialog.component';
+import {DialogModule} from '../../controls/dialog/dialog.module';
 
 
 @NgModule({
@@ -17,7 +19,8 @@ import {FormModule} from '../../controls/form/form.module';
     CommonModule,
     TaskRoutingModule,
     ListModule,
-    FormModule
+    FormModule,
+    DialogModule
   ],
   providers: [
     DummyDataService

@@ -5,3 +5,12 @@
   [rows]="taskData"
   [actions]="actions"
   (actionExecute)="handleActions($event)"></app-list>
+
+<app-dialog
+[(isVisible)]="showTaskCreateDialog"
+[title]="'New Task'">
+  <app-form
+    label="Task"
+    [fields]="formFields"
+></app-form>
+</app-dialog>

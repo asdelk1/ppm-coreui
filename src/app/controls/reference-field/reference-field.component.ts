@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {Component, forwardRef, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {EntityRecord, EntityResponse} from '../../models/record.model';
 import {InputField} from '../form/form.interfaces';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
@@ -10,9 +10,14 @@ import {ODPClientService} from '../../services/odpclient.service';
   selector: 'app-reference-field',
   templateUrl: './reference-field.component.html',
   styleUrls: ['./reference-field.component.css'],
-  encapsulation: ViewEncapsulation.Emulated
+  encapsulation: ViewEncapsulation.Emulated,
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => ReferenceFieldComponent),
+    multi: true
+  }]
 })
-export class ReferenceFieldComponent implements OnInit, OnChanges {
+export class ReferenceFieldComponent implements OnInit, OnChanges, ControlValueAccessor {
 
   @Input()
   public edit: boolean = false;
@@ -33,6 +38,12 @@ export class ReferenceFieldComponent implements OnInit, OnChanges {
   public inputField: FormControl = new FormControl();
 
   private selectedRecord: EntityRecord;
+
+  private onChange = (selectedRecord: EntityRecord) => {
+  }
+
+  private onTouched = () => {
+  }
 
   constructor(
     private odpClientService: ODPClientService
@@ -69,10 +80,31 @@ export class ReferenceFieldComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.parentRecord) {
-      this.selectedRecord = this.parentRecord[this.metadata.name] as EntityRecord;
+    // if (this.parentRecord) {
+    //   this.selectedRecord = this.parentRecord[this.metadata.name] as EntityRecord;
+    //   this.inputField.setValue(this.getDisplayText());
+    // }
+  }
+
+  writeValue(obj: any): void {
+    if (obj !== null) {
+      this.selectedRecord = obj;
       this.inputField.setValue(this.getDisplayText());
+    } else {
+      this.inputField.reset();
     }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.edit = isDisabled;
   }
 
   getDisplayText(): string {
@@ -104,6 +136,7 @@ export class ReferenceFieldComponent implements OnInit, OnChanges {
     this.hideDropDown();
     this.selectedRecord = itemRecord;
     this.inputField.setValue(this.getDisplayText());
+    this.onChange(this.selectedRecord);
   }
 
   public clickOutside(): void {
