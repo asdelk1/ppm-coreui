@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormComponent} from './form.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ReferenceFieldModule} from '../reference-field/reference-field.module';
+import {InputFieldModule} from '../input-field/input-field.module';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import {ReferenceFieldModule} from '../reference-field/reference-field.module';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ReferenceFieldModule
+    ReferenceFieldModule,
+    InputFieldModule
   ],
   exports: [
     FormComponent

@@ -18,16 +18,24 @@
             <div class="row">
               <div *ngFor="let inputField of fields;let i = index">
                 <div [ngClass]="inputField.size? inputField.size : ''" class="form-group input-field">
-                  <label for="{{inputField.name}}">{{inputField.label}}</label>
+                  <label [for]="inputField.name">{{inputField.label}}</label>
                   <!-- INPUT FIELD -->
                   <div *ngIf="inputField.type === 'input'">
-                    <input [class.editable-field]="edit"
-                           [formControlName]="inputField.name"
-                           [readonly]="!edit"
-                           class="form-control"
-                           id="{{inputField.name}}"
-                           type="text">
-                    <span class="invalid-feedback">{{getErrorMessage(inputField.name)}}</span>
+<!--                    <input [class.editable-field]="edit"-->
+<!--                           [formControlName]="inputField.name"-->
+<!--                           [readonly]="!edit"-->
+<!--                           class="form-control"-->
+<!--                           id="{{inputField.name}}"-->
+<!--                           type="text">-->
+<!--                    <span class="invalid-feedback">{{getErrorMessage(inputField.name)}}</span>-->
+                    <app-input-field
+                      [name]="inputField.name"
+                      [isEditable]="edit"
+                      [isReadOnly]="edit"
+                      [errorMessage]="getErrorMessage(inputField.name)"
+                      [formControlName]="inputField.name"
+                      id="{{inputField.name}}"
+                    ></app-input-field>
                   </div>
 
                   <!-- REFERENCE FIELD -->

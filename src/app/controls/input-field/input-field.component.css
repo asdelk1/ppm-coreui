@@ -1,0 +1,11 @@
+.ng-invalid.ng-touched {
+  @apply is-invalid;
+}
+
+.editable-field {
+  border: 1px solid black;
+}
+
+input[readonly] {
+  background-color: transparent;
+}
