@@ -29,6 +29,9 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input()
   errorMessage: string | undefined;
 
+  @Input()
+  size: string = 'small';
+
   public inputField: FormControl = new FormControl();
 
   private onChange = (fn: any) => {

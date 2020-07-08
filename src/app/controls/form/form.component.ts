@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {InputField} from './form.interfaces';
+import {EntityRecord} from '../../models/record.model';
+import {FormService} from '../../services/form.service';
 
 @Component({
   selector: 'app-form',
@@ -18,7 +20,7 @@ export class FormComponent implements OnInit, OnChanges {
   fields: InputField[];
 
   @Input()
-  record: any;
+  record: EntityRecord;
 
   @Input()
   isEditable: boolean = true;
@@ -28,7 +30,7 @@ export class FormComponent implements OnInit, OnChanges {
 
   form: FormGroup;
 
-  constructor() {
+  constructor(private formService: FormService) {
   }
 
   ngOnInit(): void {
@@ -43,9 +45,7 @@ export class FormComponent implements OnInit, OnChanges {
     }
   }
 
-
   onFormSubmit(): void {
-    console.log(this.form.value);
     this.onSubmit.emit(this.form.value);
     this.editMode();
   }
@@ -60,21 +60,10 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   public getErrorMessage(fieldName: string): string {
-    const abstractControl: AbstractControl = this.form.get(fieldName);
-    if (abstractControl.hasError('required')) {
-      return 'This field is required';
-    }
+    return this.formService.getErrorMessage(this.form, fieldName);
   }
 
   private processInputFields(): void {
-    const controls: { [name: string]: AbstractControl } = {};
-    for (const field of this.fields) {
-      const validators: ValidatorFn[] = [];
-      if (field.required) {
-        validators.push(Validators.required);
-      }
-      controls[field.name] = new FormControl(this.record && this.record[field.name] ? this.record[field.name] : null, validators);
-    }
-    this.form = new FormGroup(controls);
+this.form = this.formService.getFormGroup(this.fields, this.record);
   }
 }

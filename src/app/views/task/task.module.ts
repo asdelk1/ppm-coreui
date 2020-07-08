@@ -8,6 +8,7 @@ import {TaskDetailComponent} from './task-detail/task-detail.component';
 import {FormModule} from '../../controls/form/form.module';
 import {DialogComponent} from '../../controls/dialog/dialog.component';
 import {DialogModule} from '../../controls/dialog/dialog.module';
+import {ClickOutsideModule} from '../../directives/click-outside/click-outside.module';
 
 
 @NgModule({
@@ -15,13 +16,14 @@ import {DialogModule} from '../../controls/dialog/dialog.module';
     TaskComponent,
     TaskDetailComponent
   ],
-  imports: [
-    CommonModule,
-    TaskRoutingModule,
-    ListModule,
-    FormModule,
-    DialogModule
-  ],
+    imports: [
+        CommonModule,
+        TaskRoutingModule,
+        ListModule,
+        FormModule,
+        DialogModule,
+        ClickOutsideModule
+    ],
   providers: [
     DummyDataService
   ]

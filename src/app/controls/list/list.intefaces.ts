@@ -40,6 +40,11 @@ export interface ListActionExecute {
   selectionMode: ListSelectionMode;
 }
 
+export interface ActionExecute {
+  name: string;
+  record: EntityRecord;
+}
+
 export interface ActionButton {
   name: string;
   isVisible: boolean;

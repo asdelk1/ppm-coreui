@@ -1,8 +1,8 @@
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-sm-12">
-      <div class="card">
-        <form (ngSubmit)="onFormSubmit()" [formGroup]="form" class="form-horizontal">
+      <form (ngSubmit)="onFormSubmit()" [formGroup]="form" class="form-horizontal">
+        <div class="card">
           <div class="card-header">
             <strong>{{label}}</strong>
             <!--          <small>Details</small>-->
@@ -16,50 +16,36 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div *ngFor="let inputField of fields;let i = index">
-                <div [ngClass]="inputField.size? inputField.size : ''" class="form-group input-field">
-                  <label [for]="inputField.name">{{inputField.label}}</label>
-                  <!-- INPUT FIELD -->
-                  <div *ngIf="inputField.type === 'input'">
-<!--                    <input [class.editable-field]="edit"-->
-<!--                           [formControlName]="inputField.name"-->
-<!--                           [readonly]="!edit"-->
-<!--                           class="form-control"-->
-<!--                           id="{{inputField.name}}"-->
-<!--                           type="text">-->
-<!--                    <span class="invalid-feedback">{{getErrorMessage(inputField.name)}}</span>-->
-                    <app-input-field
-                      [name]="inputField.name"
-                      [isEditable]="edit"
-                      [isReadOnly]="edit"
-                      [errorMessage]="getErrorMessage(inputField.name)"
-                      [formControlName]="inputField.name"
-                      id="{{inputField.name}}"
-                    ></app-input-field>
-                  </div>
+              <div *ngFor="let inputField of fields;let i = index" class="input-field">
+                <!-- INPUT FIELD -->
+                <div *ngIf="inputField.type === 'input'">
+                  <app-input-field
+                    [name]="inputField.name"
+                    [label]="inputField.label"
+                    [size]="inputField.size"
+                    [isEditable]="edit"
+                    [isReadOnly]="edit"
+                    [errorMessage]="getErrorMessage(inputField.name)"
+                    [formControlName]="inputField.name"
+                    id="{{inputField.name}}"
+                  ></app-input-field>
+                </div>
 
-                  <!-- REFERENCE FIELD -->
-                  <div *ngIf="inputField.type === 'reference'">
-                    <app-reference-field
-                      [edit]="edit"
-                      [metadata]="inputField"
-                      [parentRecord]="record"
-                      [datasource]="inputField.targetDatasource"
-                      [formControlName]="inputField.name"
-                      id="ref-{{inputField.name}}">
-                    </app-reference-field>
-
-                    <!--                    <div class="input-group">-->
-                    <!--                      <input id="appendedInputButton" class="form-control" size="16" type="text">-->
-                    <!--                      <span class="input-group-append">-->
-                    <!--                  <button class="btn btn-secondary" type="button"><i class="cui-dashboard"></i></button>-->
-                    <!--                    </span></div>-->
-
-                  </div>
+                <!-- REFERENCE FIELD -->
+                <div *ngIf="inputField.type === 'reference'">
+                  <app-reference-field
+                    [edit]="edit"
+                    [metadata]="inputField"
+                    [parentRecord]="record"
+                    [datasource]="inputField.targetDatasource"
+                    [formControlName]="inputField.name"
+                    id="ref-{{inputField.name}}">
+                  </app-reference-field>
                 </div>
               </div>
             </div>
           </div>
+          <!--          </div>-->
           <div class="card-footer">
             <div *ngIf="edit">
               <button
@@ -75,9 +61,8 @@
               </button>
             </div>
           </div>
-
-        </form>
-      </div>
+        </div>
+      </form>
     </div><!--/.col-->
   </div><!--/.row-->
   <!--/.row-->

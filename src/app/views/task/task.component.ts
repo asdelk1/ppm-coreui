@@ -3,7 +3,7 @@ import {ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode} from
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ODPClientService} from '../../services/odpclient.service';
 import {EntityRecord, EntityResponse} from '../../models/record.model';
-import {InputField} from '../../controls/form/form.interfaces';
+import {InputField, InputFieldSize} from '../../controls/form/form.interfaces';
 
 @Component({
   selector: 'app-task',
@@ -67,17 +67,20 @@ export class TaskComponent implements OnInit {
     {
       name: 'taskId',
       type: 'input',
-      label: 'ID'
+      label: 'ID',
+      size: InputFieldSize.large
     },
     {
       name: 'name',
       type: 'input',
-      label: 'Task Name'
+      label: 'Task Name',
+      size: InputFieldSize.large
     },
     {
       name: 'assignee',
       type: 'reference',
       label: 'Assignee',
+      size: InputFieldSize.large,
       separator: ' ',
       displayFields: ['firstName', 'lastName'],
       targetDatasource: 'Persons',

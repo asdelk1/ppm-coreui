@@ -1,4 +1,5 @@
-<div class="col-xs-12">
+<div [ngClass]="metadata.size? metadata.size : ''" class="form-group">
+  <label [for]="metadata.name">{{metadata.label}}</label>
   <div class="input-group">
     <input
       [class.editable-field]="edit"
@@ -6,7 +7,7 @@
       [readonly]="!edit"
       autocomplete="off"
       class="form-control"
-      id="appendedInputButton"
+      [id]="metadata.name"
       size="16"
       type="text">
     <span *ngIf="!edit" class="input-group-append">

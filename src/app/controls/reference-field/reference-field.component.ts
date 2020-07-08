@@ -58,14 +58,13 @@ export class ReferenceFieldComponent implements OnInit, OnChanges, ControlValueA
         distinctUntilChanged(),
         switchMap((term: string | number) => {
           let condition: string | undefined;
-          if (this.metadata.filterFields && this.metadata.filterFields.length > 0) {
+          if (this.metadata.filterFields && this.metadata.filterFields.length > 0 && term) {
             condition = '';
             this.metadata.filterFields.forEach(
               (field: string) => {
                 if (condition !== '') {
                   condition += ' or ';
                 }
-
                 condition += 'startswith(' + field + ',' + (typeof term === 'string' ? '\'' + term + '\'' : term.toString()) + ')';
               }
             );

@@ -7,13 +7,47 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <ng-content></ng-content>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="toggleDialog(false)">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      <form [formGroup]="form" (ngSubmit)="onSave()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-horizontal">
+                <div *ngFor="let inputField of fields;let i = index" class="input-field">
+                  <!-- INPUT FIELD -->
+                  <div *ngIf="inputField.type === 'input'">
+                    <app-input-field
+                      [name]="inputField.name"
+                      [label]="inputField.label"
+                      [size]="inputField.size"
+                      [isEditable]="true"
+                      [isReadOnly]="true"
+                      [formControlName]="inputField.name"
+                      id="{{inputField.name}}"
+                    ></app-input-field>
+                  </div>
+
+                  <!-- REFERENCE FIELD -->
+                  <div *ngIf="inputField.type === 'reference'">
+                    <app-reference-field
+                      [edit]="true"
+                      [metadata]="inputField"
+                      [parentRecord]="record"
+                      [datasource]="inputField.targetDatasource"
+                      [formControlName]="inputField.name"
+                      id="ref-{{inputField.name}}">
+                    </app-reference-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="toggleDialog(false)">{{cancelLabel}}</button>
+          <button type="button" class="btn btn-primary" (click)="onSave()">{{okLabel}}</button>
+        </div>
+      </form>
+
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
