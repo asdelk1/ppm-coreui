@@ -1,0 +1,70 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <form (ngSubmit)="onFormSubmit()" [formGroup]="form" class="form-horizontal">
+        <div class="card">
+          <div class="card-header">
+            <strong>{{label}}</strong>
+            <!--          <small>Details</small>-->
+            <span class="pull-right">
+              <button
+                (click)="editMode()"
+                *ngIf="!edit && isEditable"
+                class="btn btn-secondary btn-sm"><i class="cui-pencil icons"></i>
+              </button>
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div *ngFor="let inputField of fields;let i = index" class="input-field">
+                <!-- INPUT FIELD -->
+                <div *ngIf="inputField.type === 'input'">
+                  <app-input-field
+                    [name]="inputField.name"
+                    [label]="inputField.label"
+                    [size]="inputField.size"
+                    [isEditable]="edit"
+                    [isReadOnly]="edit"
+                    [errorMessage]="getErrorMessage(inputField.name)"
+                    [formControlName]="inputField.name"
+                    id="{{inputField.name}}"
+                  ></app-input-field>
+                </div>
+
+                <!-- REFERENCE FIELD -->
+                <div *ngIf="inputField.type === 'reference'">
+                  <app-reference-field
+                    [edit]="edit"
+                    [metadata]="inputField"
+                    [parentRecord]="record"
+                    [datasource]="inputField.targetDatasource"
+                    [formControlName]="inputField.name"
+                    id="ref-{{inputField.name}}">
+                  </app-reference-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--          </div>-->
+          <div class="card-footer">
+            <div *ngIf="edit">
+              <button
+                [disabled]="form.invalid"
+                class="btn btn-sm btn-success"
+                type="submit">
+                Save
+              </button>
+              <button (click)="onButtonReset()"
+                      class="btn btn-sm btn-danger"
+                      type="type">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div><!--/.col-->
+  </div><!--/.row-->
+  <!--/.row-->
+
+</div>

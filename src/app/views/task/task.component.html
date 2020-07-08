@@ -1,1 +1,13 @@
-<p>task works!</p>
+<app-list
+  [headerText]="'Tasks'"
+  [headerIcon]="'icon-list'"
+  [headerColumns]="headers"
+  [rows]="taskData"
+  [actions]="actions"
+  (actionExecute)="handleActions($event)"></app-list>
+
+<app-dialog
+  [(isVisible)]="showTaskCreateDialog"
+  [title]="'New Task'"
+  [fields]="formFields">
+</app-dialog>

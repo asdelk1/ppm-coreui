@@ -1,0 +1,53 @@
+<div bsModal #modal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{title}}</h4>
+        <button type="button" class="close" (click)="toggleDialog(false)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="onSave()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-horizontal">
+                <div *ngFor="let inputField of fields;let i = index" class="input-field">
+                  <!-- INPUT FIELD -->
+                  <div *ngIf="inputField.type === 'input'">
+                    <app-input-field
+                      [name]="inputField.name"
+                      [label]="inputField.label"
+                      [size]="inputField.size"
+                      [isEditable]="true"
+                      [isReadOnly]="true"
+                      [formControlName]="inputField.name"
+                      id="{{inputField.name}}"
+                    ></app-input-field>
+                  </div>
+
+                  <!-- REFERENCE FIELD -->
+                  <div *ngIf="inputField.type === 'reference'">
+                    <app-reference-field
+                      [edit]="true"
+                      [metadata]="inputField"
+                      [parentRecord]="record"
+                      [datasource]="inputField.targetDatasource"
+                      [formControlName]="inputField.name"
+                      id="ref-{{inputField.name}}">
+                    </app-reference-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="toggleDialog(false)">{{cancelLabel}}</button>
+          <button type="button" class="btn btn-primary" (click)="onSave()">{{okLabel}}</button>
+        </div>
+      </form>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,12 @@
+<div [ngClass]="size? size : ''" class="form-group">
+  <label [for]="name">{{label}}</label>
+  <input [class.editable-field]="isEditable"
+         [formControl]="inputField"
+         [readonly]="!isReadOnly"
+         class="form-control"
+         id="{{name}}"
+         type="text"
+         (keyup)="react()">
+  <span *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</span>
+</div>
+

@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {TaskComponent} from './task.component';
 import {NgModule} from '@angular/core';
+import {TaskDetailComponent} from './task-detail/task-detail.component';
 
 const routes: Routes = [
   {
@@ -11,17 +12,27 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'tasks'
-      },
-      {
-        path: 'tasks',
+        component: TaskComponent,
         data: {
           title: ''
-        },
-        component: TaskComponent
+        }
+      },
+      {
+        path: 'details',
+        component: TaskDetailComponent,
+        data: {
+          title: 'Details'
+        }
       }
     ]
-  }
+  },
+  // {
+  //   path: 'details',
+  //   component: TaskDetailComponent,
+  //   data: {
+  //     title: ''
+  //   }
+  // }
 ];
 
 @NgModule({
@@ -30,4 +41,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class TaskRoutingModule {}
+export class TaskRoutingModule {
+}
