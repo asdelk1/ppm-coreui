@@ -19,7 +19,6 @@ import {AppRoutingModule} from './app.routing';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ChartsModule} from 'ng2-charts';
-import {DummyDataService} from './services/DummyDataService.service';
 import {ODPClientService} from './services/odpclient.service';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -59,7 +58,6 @@ const APP_CONTAINERS = [
     provide: LocationStrategy,
     useClass: HashLocationStrategy,
   },
-    DummyDataService,
     ODPClientService
   ],
   bootstrap: [AppComponent]

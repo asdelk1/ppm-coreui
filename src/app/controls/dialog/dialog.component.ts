@@ -40,8 +40,6 @@ export class DialogComponent implements OnInit, OnChanges {
   @ViewChild('modal')
   public modal: ModalDirective;
 
-  private isShown: boolean = false;
-
   form: FormGroup;
 
   constructor(private formService: FormService) {
@@ -63,12 +61,14 @@ export class DialogComponent implements OnInit, OnChanges {
     } else {
       this.modal.hide();
       this.isVisibleChange.emit(false);
-      this.isShown = false;
     }
   }
 
   public onSave(): void {
-    console.log(this.form.value);
-    this.actionExecute.emit();
+    this.actionExecute.emit({
+      name: 'ok',
+      record: this.form.value as EntityRecord
+    });
+    this.toggleDialog(false);
   }
 }
