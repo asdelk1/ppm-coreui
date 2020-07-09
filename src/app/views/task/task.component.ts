@@ -66,13 +66,13 @@ export class TaskComponent implements OnInit {
   formFields: InputField[] = [
     {
       name: 'taskId',
-      type: 'input',
+      type: 'text',
       label: 'ID',
       size: InputFieldSize.large
     },
     {
       name: 'name',
-      type: 'input',
+      type: 'text',
       label: 'Task Name',
       size: InputFieldSize.large
     },
@@ -89,6 +89,12 @@ export class TaskComponent implements OnInit {
         headerField: ['firstName', 'lastName'],
         fields: ['department']
       }
+    },
+    {
+      name: 'name',
+      type: 'datetime-local',
+      label: 'Task Name',
+      size: InputFieldSize.large
     }
   ];
 
