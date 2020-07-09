@@ -18,9 +18,10 @@
             <div class="row">
               <div *ngFor="let inputField of fields;let i = index" class="input-field">
                 <!-- INPUT FIELD -->
-                <div *ngIf="inputField.type === 'input'">
+                <div *ngIf="inputField.type === 'text' || inputField.type === 'datetime-local'">
                   <app-input-field
                     [name]="inputField.name"
+                    [type]="inputField.type"
                     [label]="inputField.label"
                     [size]="inputField.size"
                     [isEditable]="edit"
