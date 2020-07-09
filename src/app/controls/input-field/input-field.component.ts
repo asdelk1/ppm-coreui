@@ -21,6 +21,9 @@ export class InputFieldComponent implements ControlValueAccessor {
   label: string;
 
   @Input()
+  type: string = 'text';
+
+  @Input()
   isEditable: boolean;
 
   @Input()
@@ -35,11 +38,10 @@ export class InputFieldComponent implements ControlValueAccessor {
   public inputField: FormControl = new FormControl();
 
   private onChange = (fn: any) => {
-  }
+  };
 
   private onTouched = () => {
-  }
-
+  };
 
   constructor() {
   }
@@ -61,7 +63,33 @@ export class InputFieldComponent implements ControlValueAccessor {
   }
 
   public react(): void {
-    this.onChange(this.inputField.value);
+    if (this.type === 'datetime-local') {
+      // need to format date and time and then send the value.
+      const date: Date = new Date(this.inputField.value);
+      const formattedDate: string = `${date.getFullYear()}-
+      ${this.getDateTimeDigits(date.getUTCMonth() + 1)}-
+      ${this.getDateTimeDigits(date.getDate())}T
+      ${this.getDateTimeDigits(date.getHours())}:
+      ${this.getDateTimeDigits(date.getMinutes())}:
+      ${this.getDateTimeDigits(date.getSeconds())}.
+      ${this.getDateTimeDigits(date.getMilliseconds(), 1)}Z`;
+      this.onChange(formattedDate);
+    } else {
+      this.onChange(this.inputField.value);
+    }
+  }
+
+  private getDateTimeDigits(value: number, pad?: number): string {
+    if (value < 10) {
+      let padding: string = '0';
+      while (pad && pad > 0) {
+        padding = padding.concat('0');
+        pad--;
+      }
+      return padding + value;
+    } else {
+      return value.toString();
+    }
   }
 
 

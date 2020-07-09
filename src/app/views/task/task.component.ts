@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActionExecute, ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode} from '../../controls/list/list.intefaces';
+import {ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode} from '../../controls/list/list.intefaces';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ODPClientService} from '../../services/odpclient.service';
 import {EntityRecord, EntityResponse} from '../../models/record.model';
@@ -63,16 +63,16 @@ export class TaskComponent implements OnInit {
     },
   ];
 
-  newTaskDialogFields: InputField[] = [
+  formFields: InputField[] = [
     {
       name: 'taskId',
-      type: 'input',
+      type: 'text',
       label: 'ID',
       size: InputFieldSize.large
     },
     {
       name: 'name',
-      type: 'input',
+      type: 'text',
       label: 'Task Name',
       size: InputFieldSize.large
     },
@@ -91,43 +91,13 @@ export class TaskComponent implements OnInit {
       }
     },
     {
-      name: 'earlyStart',
-      type: 'input',
-      label: 'Early Start',
-      size: InputFieldSize.large
-    },
-    {
-      name: 'earlyFinish',
-      type: 'input',
-      label: 'Early Finish',
-      size: InputFieldSize.large
-    },
-    {
-      name: 'lateStart',
-      type: 'input',
-      label: 'Late Start',
-      size: InputFieldSize.large
-    },
-    {
-      name: 'lateFinish',
-      type: 'input',
-      label: 'Late Finish',
-      size: InputFieldSize.large
-    },
-    {
-      name: 'freeFloat',
-      type: 'input',
-      label: 'Free Float',
-      size: InputFieldSize.large
-    },
-    {
-      name: 'totalFloat',
-      type: 'input',
-      label: 'Total Float',
+      name: 'name',
+      type: 'datetime-local',
+      label: 'Task Name',
       size: InputFieldSize.large
     }
-
   ];
+
 
   public actions: ListAction[] = [
     {
@@ -188,18 +158,5 @@ export class TaskComponent implements OnInit {
       relativeTo: this.route,
       queryParams: filterParams,
     });
-  }
-
-  public onCreateTaskExecute(event: ActionExecute): void {
-    if (event.name === 'ok') {
-         this.oDataService.saveEntity('Tasks', event.record).subscribe(
-           (response: EntityResponse) => {
-             if(response.data){
-               this.taskData = this.taskData.concat(response.data);
-             }
-           }
-         );
-         // Need to show some Toast
-    }
   }
 }

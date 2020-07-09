@@ -5,8 +5,8 @@
          [readonly]="!isReadOnly"
          class="form-control"
          id="{{name}}"
-         type="text"
-         (keyup)="react()">
+         [type]="type"
+         (change)="react()">
   <span *ngIf="errorMessage" class="invalid-feedback">{{errorMessage}}</span>
 </div>
 

@@ -14,11 +14,12 @@
               <div class="form-horizontal">
                 <div *ngFor="let inputField of fields;let i = index" class="input-field">
                   <!-- INPUT FIELD -->
-                  <div *ngIf="inputField.type === 'input'">
+                  <div *ngIf="inputField.type !== 'reference'">
                     <app-input-field
                       [name]="inputField.name"
                       [label]="inputField.label"
                       [size]="inputField.size"
+                      [type]="inputField.type"
                       [isEditable]="true"
                       [isReadOnly]="true"
                       [formControlName]="inputField.name"
