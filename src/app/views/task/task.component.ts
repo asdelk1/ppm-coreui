@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode} from '../../controls/list/list.intefaces';
+import {ActionExecute, ListAction, ListActionExecute, ListHeaderColumn, ListSelectionMode} from '../../controls/list/list.intefaces';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ODPClientService} from '../../services/odpclient.service';
 import {EntityRecord, EntityResponse} from '../../models/record.model';
@@ -63,7 +63,7 @@ export class TaskComponent implements OnInit {
     },
   ];
 
-  formFields: InputField[] = [
+  newTaskDialogFields: InputField[] = [
     {
       name: 'taskId',
       type: 'text',
@@ -91,13 +91,42 @@ export class TaskComponent implements OnInit {
       }
     },
     {
-      name: 'name',
+      name: 'earlyStart',
       type: 'datetime-local',
-      label: 'Task Name',
+      label: 'Early Start',
       size: InputFieldSize.large
-    }
+    },
+    {
+      name: 'earlyFinish',
+      type: 'datetime-local',
+      label: 'Early Finish',
+      size: InputFieldSize.large
+    },
+    {
+      name: 'lateStart',
+      type: 'datetime-local',
+      label: 'Late Start',
+      size: InputFieldSize.large
+    },
+    {
+      name: 'lateFinish',
+      type: 'datetime-local',
+      label: 'Late Finish',
+      size: InputFieldSize.large
+    },
+    {
+      name: 'freeFloat',
+      type: 'text',
+      label: 'Free Float',
+      size: InputFieldSize.large
+    },
+    {
+      name: 'totalFloat',
+      type: 'text',
+      label: 'Total Float',
+      size: InputFieldSize.large
+    },
   ];
-
 
   public actions: ListAction[] = [
     {
@@ -158,5 +187,15 @@ export class TaskComponent implements OnInit {
       relativeTo: this.route,
       queryParams: filterParams,
     });
+  }
+
+  public onCreateTaskExecute(event: ActionExecute): void {
+    if (event.name === 'ok') {
+      this.oDataService.saveEntity('Tasks', event.record).subscribe(
+        (response: EntityResponse) => {
+          this.taskData = this.taskData.concat(response.data);
+        }
+      );
+    }
   }
 }
