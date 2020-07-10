@@ -116,16 +116,16 @@ export class TaskComponent implements OnInit {
     },
     {
       name: 'freeFloat',
-      type: 'text',
+      type: 'number',
       label: 'Free Float',
       size: InputFieldSize.large
     },
     {
       name: 'totalFloat',
-      type: 'text',
+      type: 'number',
       label: 'Total Float',
       size: InputFieldSize.large
-    },
+    }
   ];
 
   public actions: ListAction[] = [
@@ -193,7 +193,8 @@ export class TaskComponent implements OnInit {
     if (event.name === 'ok') {
       this.oDataService.saveEntity('Tasks', event.record).subscribe(
         (response: EntityResponse) => {
-          this.taskData = this.taskData.concat(response.data);
+          const tempDate: any[] = this.taskData.concat(response.data);
+          this.taskData = tempDate;
         }
       );
     }

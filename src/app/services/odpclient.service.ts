@@ -58,9 +58,9 @@ export class ODPClientService {
       }
     } else {
       singleton = true;
-      const record: EntityRecord = {};
+      data = {};
       for (const prop of Object.keys(response)) {
-        record[prop] = response[prop];
+        data[prop] = response[prop];
       }
     }
     return {
