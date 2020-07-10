@@ -33,31 +33,40 @@ export class ODPClientService {
       params: params
     }).pipe(
       map((response) => {
-          let singleton: boolean = false;
-          let data: EntityRecord | EntityRecord[];
-          if (response['value']) {
-            data = [];
-            for (const obj of Object.values(response['value'])) {
-              const record: EntityRecord = {};
-              for (const prop of Object.keys(obj)) {
-                record[prop] = obj[prop];
-              }
-              data.push(record);
-            }
-          } else {
-            singleton = true;
-            const record: EntityRecord = {};
-            for (const prop of Object.keys(response)) {
-              record[prop] = response[prop];
-            }
-          }
-          return {
-            data: data,
-            isSingleton: singleton,
-            oDataContext: response['@odata.context']
-          };
+          return this.getEntityRecord(response);
         }
       )
     );
+  }
+
+  public saveEntity(entitySet: string, record: EntityRecord): Observable<any> {
+    const url: string = this.BASE_END_POINT + entitySet;
+    return this.httpClient.post(url, record, {
+      observe: 'body'
+    }).pipe(
+      map((response: Object) => this.getEntityRecord(response))
+    );
+  }
+
+  private getEntityRecord(response: Object): any {
+    let singleton: boolean = false;
+    let data: EntityRecord | EntityRecord[];
+    if (response['value']) {
+      data = [];
+      for (const obj of Object.values(response['value'])) {
+        data.push(obj as EntityRecord);
+      }
+    } else {
+      singleton = true;
+      data = {};
+      for (const prop of Object.keys(response)) {
+        data[prop] = response[prop];
+      }
+    }
+    return {
+      data: data,
+      isSingleton: singleton,
+      oDataContext: response['@odata.context']
+    };
   }
 }

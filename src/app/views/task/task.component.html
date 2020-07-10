@@ -9,5 +9,7 @@
 <app-dialog
   [(isVisible)]="showTaskCreateDialog"
   [title]="'New Task'"
-  [fields]="formFields">
+  [fields]="newTaskDialogFields"
+  [okLabel]="'Create'"
+  (actionExecute)="onCreateTaskExecute($event)">
 </app-dialog>
