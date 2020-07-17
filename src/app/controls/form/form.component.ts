@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {InputField} from './form.interfaces';
 import {EntityRecord} from '../../models/record.model';
 import {FormService} from '../../services/form.service';
@@ -46,7 +46,7 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   onFormSubmit(): void {
-    this.onSubmit.emit(this.form.value);
+    this.onSubmit.emit(new EntityRecord(this.form.value).setId(this.record.getId()));
     this.editMode();
   }
 
@@ -56,7 +56,8 @@ export class FormComponent implements OnInit, OnChanges {
 
   public onButtonReset(): void {
     this.editMode();
-    this.form.reset(this.record);
+    const obj: any = this.record.getEntity();
+    this.form.reset(JSON.parse(obj));
   }
 
   public getErrorMessage(fieldName: string): string {
@@ -64,6 +65,6 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   private processInputFields(): void {
-this.form = this.formService.getFormGroup(this.fields, this.record);
+    this.form = this.formService.getFormGroup(this.fields, this.record);
   }
 }

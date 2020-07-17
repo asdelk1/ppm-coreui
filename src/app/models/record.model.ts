@@ -8,13 +8,15 @@ export interface Entity {
   [name: string]: string | number | EntityRecord;
 }
 
+
 export class EntityRecord {
   private readonly entity: Entity = {};
 
   constructor(data: Object) {
     for (const key of Object.keys(data)) {
       if (typeof data[key] === 'object') {
-        this.entity[key] = new EntityRecord(data[key]);
+        const subEntity: EntityRecord = new EntityRecord(data[key]);
+        this.entity[key] = subEntity;
       }
       this.entity[key] = data[key];
     }
@@ -28,18 +30,7 @@ export class EntityRecord {
   }
 
   public getEntity(): string {
-    const primitiveProperties: { [key: string]: string | number } = {};
-    for (const key of Object.keys(this.entity)) {
-      if (typeof this.entity[key] === 'string') {
-        primitiveProperties[key] = this.entity[key] as string;
-      } else if (typeof this.entity[key] === 'number') {
-        primitiveProperties[key] = this.entity[key].toString();
-      } else {
-        primitiveProperties[key] = (this.entity[key] as EntityRecord).getEntity();
-      }
-    }
-
-   return JSON.stringify(primitiveProperties);
+    return JSON.stringify(this.entity);
   }
 
   public getId(): string | null {
@@ -53,3 +44,4 @@ export class EntityRecord {
     // might need to throw an exception.
   }
 }
+
