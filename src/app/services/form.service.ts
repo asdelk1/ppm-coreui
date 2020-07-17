@@ -15,7 +15,7 @@ export class FormService {
       if (field.required) {
         validators.push(Validators.required);
       }
-      controls[field.name] = new FormControl(record && record[field.name] ? record[field.name] : null, validators);
+      controls[field.name] = new FormControl(record && record.getProperty(field.name) ? record.getProperty(field.name) : null, validators);
     }
     return new FormGroup(controls);
   }

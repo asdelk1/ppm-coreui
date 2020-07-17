@@ -42,14 +42,14 @@ export class ListComponent implements OnInit {
       return;
     }
     this.rows = [];
-    records.forEach((record: any) => {
+    records.forEach((record: EntityRecord) => {
       const rowColumns: Column[] = [];
       for (const column of this.headerColumns) {
         let isBadge: boolean = false;
         let value: string;
         let badgeStyle: string | undefined;
-        if (record[column.name]) {
-          value = record[column.name];
+        if (record.getProperty(column.name)) {
+          value = record.getProperty(column.name).toString();
         } else {
           value = '';
         }
@@ -71,7 +71,7 @@ export class ListComponent implements OnInit {
         });
       }
       this.rows.push({
-        rowId: record['entityId'],
+        rowId: record.getId(),
         columns: rowColumns,
         isSelected: false,
         data: record
