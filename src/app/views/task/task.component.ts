@@ -179,9 +179,9 @@ export class TaskComponent implements OnInit {
     this.showTaskCreateDialog = true;
   }
 
-  private navigateToDetails(data: any): void {
+  private navigateToDetails(data: EntityRecord): void {
     const filterParams: Params = {
-      'filter': 'taskId eq \'' + data['taskId'] + '\''
+      'filter': 'taskId eq \'' + data.getProperty('taskId') + '\''
     };
     this.router.navigate(['details'], {
       relativeTo: this.route,
@@ -191,7 +191,7 @@ export class TaskComponent implements OnInit {
 
   public onCreateTaskExecute(event: ActionExecute): void {
     if (event.name === 'ok') {
-      this.oDataService.saveEntity('Tasks', event.record).subscribe(
+      this.oDataService.createEntity('Tasks', event.record).subscribe(
         (response: EntityResponse) => {
           const tempDate: any[] = this.taskData.concat(response.data);
           this.taskData = tempDate;

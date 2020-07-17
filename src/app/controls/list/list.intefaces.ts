@@ -36,7 +36,7 @@ export interface ListAction {
 
 export interface ListActionExecute {
   name: string;
-  selection: any[];
+  selection: EntityRecord[];
   selectionMode: ListSelectionMode;
 }
 
