@@ -46,7 +46,9 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   onFormSubmit(): void {
-    this.onSubmit.emit(new EntityRecord(this.form.value).setId(this.record.getId()));
+    const newRecord: EntityRecord = new EntityRecord(this.form.value);
+    newRecord.setId(this.record.getId());
+    this.onSubmit.emit(newRecord);
     this.editMode();
   }
 
@@ -54,10 +56,9 @@ export class FormComponent implements OnInit, OnChanges {
     this.edit = this.isEditable === true ? !this.edit : false;
   }
 
-  public onButtonReset(): void {
+  public onFormReset(): void {
     this.editMode();
-    const obj: any = this.record.getEntity();
-    this.form.reset(JSON.parse(obj));
+    this.form.reset(this.record.getEntity());
   }
 
   public getErrorMessage(fieldName: string): string {

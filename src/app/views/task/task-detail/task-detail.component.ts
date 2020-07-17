@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {InputField} from '../../../controls/form/form.interfaces';
 import {ActivatedRoute} from '@angular/router';
 import {ODPClientService} from '../../../services/odpclient.service';
-import {EntityRecord} from '../../../models/record.model';
+import {EntityRecord, EntityResponse} from '../../../models/record.model';
 
 @Component({
   selector: 'app-task-detail',
@@ -52,8 +52,10 @@ export class TaskDetailComponent implements OnInit {
     );
   }
 
-  public saveTask(data: any) {
-    console.log(JSON.stringify(data));
+  public saveTask(data: EntityRecord) {
+    this.odp.updateEntity('Tasks', data).subscribe(
+      (result: EntityResponse) => this.record = result.data as EntityRecord
+    );
   }
 
 }

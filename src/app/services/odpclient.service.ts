@@ -39,9 +39,18 @@ export class ODPClientService {
     );
   }
 
-  public saveEntity(entitySet: string, record: EntityRecord): Observable<any> {
+  public createEntity(entitySet: string, record: EntityRecord): Observable<any> {
     const url: string = this.BASE_END_POINT + entitySet;
     return this.httpClient.post(url, record, {
+      observe: 'body'
+    }).pipe(
+      map((response: Object) => this.getEntityResponse(response))
+    );
+  }
+
+  public updateEntity(entitySet: string, record: EntityRecord): Observable<any>{
+    const url: string = `${this.BASE_END_POINT}${entitySet}('${record.getId()}')`;
+    return this.httpClient.patch(url, record.getEntity(), {
       observe: 'body'
     }).pipe(
       map((response: Object) => this.getEntityResponse(response))

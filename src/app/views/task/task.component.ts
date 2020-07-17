@@ -191,7 +191,7 @@ export class TaskComponent implements OnInit {
 
   public onCreateTaskExecute(event: ActionExecute): void {
     if (event.name === 'ok') {
-      this.oDataService.saveEntity('Tasks', event.record).subscribe(
+      this.oDataService.createEntity('Tasks', event.record).subscribe(
         (response: EntityResponse) => {
           const tempDate: any[] = this.taskData.concat(response.data);
           this.taskData = tempDate;

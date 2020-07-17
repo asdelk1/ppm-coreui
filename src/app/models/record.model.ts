@@ -29,8 +29,12 @@ export class EntityRecord {
     return this.entity[name];
   }
 
-  public getEntity(): string {
+  public getEntityBody(): string {
     return JSON.stringify(this.entity);
+  }
+
+  public getEntity(): Entity {
+    return this.entity;
   }
 
   public getId(): string | null {
