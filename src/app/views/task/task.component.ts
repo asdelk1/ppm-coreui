@@ -143,6 +143,15 @@ export class TaskComponent implements OnInit {
       isBound: true,
       selectMode: ListSelectionMode.Single,
       label: 'Details'
+    },
+    {
+      name: 'deleteTask',
+      color: 'danger',
+      enable: (data: EntityRecord) => true,
+      label: 'Delete',
+      icon: 'fa-trash',
+      isBound: true,
+      selectMode: ListSelectionMode.Single
     }
   ];
 
@@ -171,6 +180,8 @@ export class TaskComponent implements OnInit {
       case 'taskDetails':
         this.navigateToDetails(action.selection[0]);
         break;
+      case 'deleteTask':
+        this.deleteTask(action.selection[0]);
       default:
     }
   }
@@ -198,5 +209,16 @@ export class TaskComponent implements OnInit {
         }
       );
     }
+  }
+
+  public deleteTask(record: EntityRecord): void {
+    this.oDataService.deleteEntity('Tasks', record.getId()).subscribe(
+      (res: Object) => {
+        const recordIndex: number = this.taskData.findIndex(
+          (dataRecord: EntityRecord) => dataRecord.getId() === record.getId()
+        );
+        this.taskData.splice(recordIndex, 1);
+      }
+    );
   }
 }
