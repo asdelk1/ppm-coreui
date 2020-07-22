@@ -15,10 +15,16 @@ export class EntityRecord {
   constructor(data: Object) {
     for (const key of Object.keys(data)) {
       if (typeof data[key] === 'object') {
-        const subEntity: EntityRecord = new EntityRecord(data[key]);
-        this.entity[key] = subEntity;
+        const complexObject: any = data[key];
+        if (complexObject instanceof EntityRecord) {
+          this.entity[key] = complexObject;
+        } else {
+          const subEntity: EntityRecord = new EntityRecord(data[key]);
+          this.entity[key] = subEntity;
+        }
+      } else {
+        this.entity[key] = data[key];
       }
-      this.entity[key] = data[key];
     }
   }
 
@@ -33,8 +39,16 @@ export class EntityRecord {
     return JSON.stringify(this.entity);
   }
 
-  public getEntity(): Entity {
-    return this.entity;
+  public getEntity(): any {
+    const obj: { [key: string]: any } = {};
+    for (const property of Object.keys(this.entity)) {
+      if (typeof this.entity[property] === 'object') {
+        obj[property] = (this.entity[property] as EntityRecord).getEntity();
+      } else {
+        obj[property] = this.entity[property];
+      }
+    }
+    return obj;
   }
 
   public getId(): string | null {

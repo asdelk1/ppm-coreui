@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {EntityRecord} from '../models/record.model';
 
@@ -50,10 +50,17 @@ export class ODPClientService {
 
   public updateEntity(entitySet: string, record: EntityRecord): Observable<any> {
     const url: string = `${this.BASE_END_POINT}${entitySet}('${record.getId()}')`;
-    return this.httpClient.patch(url, record.getEntity(), {
-      observe: 'body'
+    const body: any = record.getEntity();
+    return this.httpClient.patch(url, body, {
+      observe: 'response'
     }).pipe(
-      map((response: Object) => this.getEntityResponse(response))
+      map((response: HttpResponse<any>) => {
+          if (response.ok) {
+            return record;
+          }
+          return null;
+        }
+      )
     );
   }
 
