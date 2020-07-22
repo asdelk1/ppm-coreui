@@ -15,6 +15,15 @@ export class FormService {
       if (field.required) {
         validators.push(Validators.required);
       }
+
+      let value: any = null;
+      if (record && record.getProperty(field.name)) {
+        if (typeof record.getProperty(field.name) === 'object') {
+          value = (record.getProperty(field.name) as EntityRecord).getEntity();
+        } else {
+          value = record.getProperty(field.name);
+        }
+      }
       controls[field.name] = new FormControl(record && record.getProperty(field.name) ? record.getProperty(field.name) : null, validators);
     }
     return new FormGroup(controls);

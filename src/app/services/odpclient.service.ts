@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {EntityRecord} from '../models/record.model';
 
@@ -48,12 +48,33 @@ export class ODPClientService {
     );
   }
 
-  public updateEntity(entitySet: string, record: EntityRecord): Observable<any>{
+  public updateEntity(entitySet: string, record: EntityRecord): Observable<any> {
     const url: string = `${this.BASE_END_POINT}${entitySet}('${record.getId()}')`;
-    return this.httpClient.patch(url, record.getEntity(), {
-      observe: 'body'
+    const body: any = record.getEntity();
+    return this.httpClient.patch(url, body, {
+      observe: 'response'
     }).pipe(
-      map((response: Object) => this.getEntityResponse(response))
+      map((response: HttpResponse<any>) => {
+          if (response.ok) {
+            return record;
+          }
+          return null;
+        }
+      )
+    );
+  }
+
+  public deleteEntity(entitySet: string, id: string): Observable<any> {
+    const url: string = `${this.BASE_END_POINT}${entitySet}('${id}')`;
+    return this.httpClient.delete(url, {
+      observe: 'response'
+    }).pipe(
+      map(
+        (response: Object) => {
+          console.log(response);
+          return response;
+        }
+      )
     );
   }
 
@@ -80,22 +101,22 @@ export class ODPClientService {
   // }
 
   public getEntityResponse(httpResponse: Object): any {
-      let singleton: boolean = false;
-      let data: EntityRecord | EntityRecord[];
-      if (httpResponse['value']) {
-        data = [];
-        for (const obj of Object.values(httpResponse['value'])) {
-          data.push(new EntityRecord(obj));
-        }
-      } else {
-        singleton = true;
-       data = new EntityRecord(httpResponse);
+    let singleton: boolean = false;
+    let data: EntityRecord | EntityRecord[];
+    if (httpResponse['value']) {
+      data = [];
+      for (const obj of Object.values(httpResponse['value'])) {
+        data.push(new EntityRecord(obj));
       }
-      return {
-        data: data,
-        isSingleton: singleton,
-        oDataContext: httpResponse['@odata.context']
-      };
+    } else {
+      singleton = true;
+      data = new EntityRecord(httpResponse);
     }
+    return {
+      data: data,
+      isSingleton: singleton,
+      oDataContext: httpResponse['@odata.context']
+    };
+  }
 
 }

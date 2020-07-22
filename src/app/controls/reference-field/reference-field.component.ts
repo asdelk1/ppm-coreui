@@ -39,7 +39,7 @@ export class ReferenceFieldComponent implements OnInit, OnChanges, ControlValueA
 
   private selectedRecord: EntityRecord;
 
-  private onChange = (selectedRecord: EntityRecord) => {
+  private onChange = (selectedRecord: Object) => {
   }
 
   private onTouched = () => {
@@ -113,7 +113,7 @@ export class ReferenceFieldComponent implements OnInit, OnChanges, ControlValueA
         console.error(`Reference field ${this.metadata.name} has more than 2 child fields`);
         return;
       }
-      const fieldValues: string[] = fields.map((field: string) => (this.selectedRecord[field]).toString());
+      const fieldValues: string[] = fields.map((field: string) => (this.selectedRecord ? this.selectedRecord.getProperty(field).toString() : ''));
       return fieldValues.join(this.metadata.separator);
     }
   }
@@ -127,7 +127,8 @@ export class ReferenceFieldComponent implements OnInit, OnChanges, ControlValueA
   }
 
   public getReferenceHeader(record: EntityRecord): string {
-    const fieldValues: string[] = this.metadata.referenceItem.headerField.map((field: string) => (record[field]).toString());
+    const fieldValues: string[] = this.metadata.referenceItem.headerField.map(
+      (field: string) => record ? (record.getProperty(field)).toString() : '');
     return fieldValues.join(' ');
   }
 
@@ -135,7 +136,7 @@ export class ReferenceFieldComponent implements OnInit, OnChanges, ControlValueA
     this.hideDropDown();
     this.selectedRecord = itemRecord;
     this.inputField.setValue(this.getDisplayText());
-    this.onChange(this.selectedRecord);
+    this.onChange(JSON.parse(this.selectedRecord.getEntityBody()));
   }
 
   public clickOutside(): void {
