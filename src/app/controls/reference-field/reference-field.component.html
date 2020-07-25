@@ -1,4 +1,4 @@
-<div [ngClass]="metadata.size? metadata.size : ''" class="form-group">
+<div [ngClass]="metadata.size? metadata.size : ''" class="form-group reference-input">
   <label [for]="metadata.name">{{metadata.label}}</label>
   <div class="input-group">
     <input
@@ -13,15 +13,19 @@
     <span *ngIf="!edit" class="input-group-append">
                   <button class="btn btn-secondary" type="button"><i class="cui-dashboard"></i></button>
                 </span>
+
   </div>
-  <div (clickedOutside)="clickOutside()" *ngIf="isDropdownVisible" appClickOutside>
-    <div *ngFor="let result of filterResult" class="list-group">
-      <a (click)="onDropdownItemClick(result)" class="list-group-item search-drop-down">
-        <h6>{{getReferenceHeader(result)}}</h6>
-        <p *ngFor="let textField of metadata.referenceItem.fields">{{result[textField]}}</p>
-      </a>
+
+    <div (clickedOutside)="clickOutside()"  appClickOutside>
+      <div *ngIf="isDropdownVisible" class="search-drop-down">
+        <div (click)="onDropdownItemClick(result)" *ngFor="let result of filterResult">
+          <a >
+            <h6>{{getReferenceHeader(result)}}</h6>
+            <p *ngFor="let textField of metadata.referenceItem.fields">{{result[textField]}}</p>
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
 </div>
 
 

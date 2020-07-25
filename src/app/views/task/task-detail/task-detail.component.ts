@@ -54,7 +54,10 @@ export class TaskDetailComponent implements OnInit {
 
   public saveTask(data: EntityRecord) {
     this.odp.updateEntity('Tasks', data).subscribe(
-      (result: EntityResponse) => this.record = result.data as EntityRecord
+      (result: EntityResponse) => {
+        // TODO: Need to add a toast message.
+        return;
+      }
     );
   }
 

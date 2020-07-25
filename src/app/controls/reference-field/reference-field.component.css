@@ -1,14 +1,26 @@
 .search-drop-down {
-  position: static;
+  display: block;
+  width: auto;
   max-height: 300px;
   overflow-y: auto;
   z-index: 10;
+  background-color: #F6F6F6;
+  font-family: sans-serif;
   opacity: 0.98;
+  border: black solid 1px;
+  padding-left: 2px;
 }
 
+.reference-input {
+  position: absolute;
+}
 
 .editable-field {
   border: 1px solid black;
+}
+
+.reference-dropdown{
+  z-index: 100;
 }
 
 input[readonly] {
