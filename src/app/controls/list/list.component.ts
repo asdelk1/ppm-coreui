@@ -83,6 +83,8 @@ export class ListComponent implements OnInit {
   @Output('actionExecute')
   execute: EventEmitter<ListActionExecute> = new EventEmitter<ListActionExecute>();
 
+  public isLoading: boolean = false;
+
   constructor() {
   }
 

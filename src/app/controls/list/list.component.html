@@ -9,46 +9,48 @@
         </div>
         <div class="card-body">
 
-          <!-- button toolbar -->
-          <div class="row align-items-center" *ngIf="actionButtons && actionButtons.length > 0">
-            <!--            <div class="col-12 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0" *ngFor="let actionButton of actionButtons">-->
-            <div *ngFor="let actionButton of actionButtons">
-              <button
-                *ngIf="actionButton.isVisible"
-                type="button"
-                class="btn btn-pill btn-sm"
-                [ngClass]="actionButton.button.color? 'btn-'+actionButton.button.color : 'btn-primary'"
-                (click)="actionClick(actionButton.button)">
-                <i *ngIf="actionButton.button.icon" class="fa fa-lg"
-                   [ngClass]="actionButton.button.icon"></i> {{actionButton.button.label}}
-              </button>
-              <!--              </div>-->
+          <app-loader (isLoading)="isLoading = $event"></app-loader>
+
+          <div *ngIf="!isLoading">
+
+            <!-- button toolbar -->
+            <div class="row align-items-center" *ngIf="actionButtons && actionButtons.length > 0">
+              <div *ngFor="let actionButton of actionButtons">
+                <button
+                  *ngIf="actionButton.isVisible"
+                  type="button"
+                  class="btn btn-pill btn-sm"
+                  [ngClass]="actionButton.button.color? 'btn-'+actionButton.button.color : 'btn-primary'"
+                  (click)="actionClick(actionButton.button)">
+                  <i *ngIf="actionButton.button.icon" class="fa fa-lg"
+                     [ngClass]="actionButton.button.icon"></i> {{actionButton.button.label}}
+                </button>
+              </div>
             </div>
-          </div>
 
-          <!-- List -->
-          <div class="row top-margin">
-            <table class="table table-sm table-hover" *ngIf="headerColumns && headerColumns.length > 0">
-              <thead>
-              <tr>
-                <th width="2%" scope="col"><i class="fa fa-check-square"></i></th>
-                <th *ngFor="let column of headerColumns">{{column.label}}</th>
-              </tr>
-              </thead>
-              <tbody *ngIf="rows && rows.length > 0; else noData">
-              <tr *ngFor="let row of rows"
-                  [class.table-active]="row.isSelected"
-                  (click)="onRowSelect(row)">
+            <!-- List -->
+            <div class="row top-margin">
+              <table class="table table-sm table-hover" *ngIf="headerColumns && headerColumns.length > 0">
+                <thead>
+                <tr>
+                  <th width="2%" scope="col"><i class="fa fa-check-square"></i></th>
+                  <th *ngFor="let column of headerColumns">{{column.label}}</th>
+                </tr>
+                </thead>
+                <tbody *ngIf="rows && rows.length > 0; else noData">
+                <tr *ngFor="let row of rows"
+                    [class.table-active]="row.isSelected"
+                    (click)="onRowSelect(row)">
 
-                <!-- check box -->
-                <td scope="row">
-                  <i *ngIf="row.isSelected; else rowSelectedSquareO" class="fa fa-check-square-o"></i>
-                  <ng-template #rowSelectedSquareO>
-                    <i class="fa fa-square-o"></i>
-                  </ng-template>
-                </td>
-                <!--data columns-->
-                <td *ngFor="let columnValue of row.columns">
+                  <!-- check box -->
+                  <td scope="row">
+                    <i *ngIf="row.isSelected; else rowSelectedSquareO" class="fa fa-check-square-o"></i>
+                    <ng-template #rowSelectedSquareO>
+                      <i class="fa fa-square-o"></i>
+                    </ng-template>
+                  </td>
+                  <!--data columns-->
+                  <td *ngFor="let columnValue of row.columns">
 
                 <span [ngClass]="{'badge': columnValue.isBadge,
                 'badge-success': columnValue.badgeStyle === 'success',
@@ -60,32 +62,33 @@
                 'badge-light': columnValue.badgeStyle === 'light',
                 'badge-dark': columnValue.badgeStyle === 'dark'}">{{columnValue.value}}</span>
 
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-          <ng-template #noData>
-            <div>
-              <h6>No Data</h6>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
             </div>
-          </ng-template>
 
-          <!--          <nav>-->
-          <!--            <ul class="pagination">-->
-          <!--              <li class="page-item"><a class="page-link" href="#">Prev</a></li>-->
-          <!--              <li class="page-item active">-->
-          <!--                <a class="page-link" href="#">1</a>-->
-          <!--              </li>-->
-          <!--              <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-          <!--              <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-          <!--              <li class="page-item"><a class="page-link" href="#">4</a></li>-->
-          <!--              <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
-          <!--            </ul>-->
-          <!--          </nav>-->
+            <ng-template #noData>
+              <div>
+                <h6>No Data</h6>
+              </div>
+            </ng-template>
+
+            <!--          <nav>-->
+            <!--            <ul class="pagination">-->
+            <!--              <li class="page-item"><a class="page-link" href="#">Prev</a></li>-->
+            <!--              <li class="page-item active">-->
+            <!--                <a class="page-link" href="#">1</a>-->
+            <!--              </li>-->
+            <!--              <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+            <!--              <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+            <!--              <li class="page-item"><a class="page-link" href="#">4</a></li>-->
+            <!--              <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
+            <!--            </ul>-->
+            <!--          </nav>--></div>
+
         </div>
+
       </div>
     </div>
     <!--/.col-->

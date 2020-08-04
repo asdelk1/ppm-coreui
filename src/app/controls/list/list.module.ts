@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ListComponent} from './list.component';
+import {LoaderModule} from '../loader/loader.module';
 
 
 @NgModule({
@@ -8,9 +9,10 @@ import {ListComponent} from './list.component';
   exports: [
     ListComponent
   ],
-  imports: [
-    CommonModule
-  ]
+    imports: [
+        CommonModule,
+        LoaderModule
+    ]
 })
 export class ListModule {
 }
