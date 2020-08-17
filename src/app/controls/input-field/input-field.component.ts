@@ -1,5 +1,7 @@
 import {Component, forwardRef, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import DateTimeFormat = Intl.DateTimeFormat;
+import DateTimeFormatPart = Intl.DateTimeFormatPart;
 
 @Component({
   selector: 'app-input-field',
@@ -55,7 +57,14 @@ export class InputFieldComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    this.inputField.setValue(obj);
+    if (this.type === 'datetime-local') {
+        const date: Date = new Date(obj);
+        const dateTimeFormat: Intl.DateTimeFormat = new Intl.DateTimeFormat('en', {year: 'numeric', month: 'short', day: '2-digit'});
+        const formattedDate: DateTimeFormatPart[] = dateTimeFormat.formatToParts(date);
+
+    } else {
+      this.inputField.setValue(obj);
+    }
   }
 
   setDisabledState?(isDisabled: boolean): void {
