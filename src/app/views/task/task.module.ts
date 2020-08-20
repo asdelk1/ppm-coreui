@@ -15,15 +15,15 @@ import {ClickOutsideModule} from '../../directives/click-outside/click-outside.m
     TaskComponent,
     TaskDetailComponent
   ],
-    imports: [
-        CommonModule,
-        TaskRoutingModule,
-        ListModule,
-        FormModule,
-        DialogModule,
-        ClickOutsideModule
-    ],
-  providers: [
-  ]
+  imports: [
+    CommonModule,
+    TaskRoutingModule,
+    ListModule,
+    FormModule,
+    DialogModule,
+    ClickOutsideModule
+  ],
+  providers: []
 })
-export class TaskModule { }
+export class TaskModule {
+}

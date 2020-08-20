@@ -22,6 +22,7 @@ import {ChartsModule} from 'ng2-charts';
 import {ODPClientService} from './services/odpclient.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {LoaderInterceptor} from './interceptors/loader-interceptor.service';
+import { MachineComponent } from './views/machine/machine.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -53,7 +54,8 @@ const APP_CONTAINERS = [
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    MachineComponent
   ],
   providers: [{
     provide: LocationStrategy,

@@ -1,0 +1,18 @@
+<app-list
+  [headerColumns]="headerColumns"
+  [rows]="persons"
+  [actions]="actions"
+  (actionExecute)="executeListActions($event)"
+  [headerText]="'Person'"
+  [headerIcon]="'icon-user'"
+></app-list>
+
+<app-dialog
+  title="Create Person"
+  [fields]="newDialogFields"
+  [(isVisible)]="isVisibleCreateDialog"
+  okLabel="Save"
+  (actionExecute)="executeDialogActions($event)"
+>
+
+</app-dialog>
