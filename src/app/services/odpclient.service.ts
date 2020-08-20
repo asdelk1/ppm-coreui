@@ -100,7 +100,7 @@ export class ODPClientService {
   //   };
   // }
 
-  public getEntityResponse(httpResponse: Object): any {
+  private getEntityResponse(httpResponse: Object): any {
     let singleton: boolean = false;
     let data: EntityRecord | EntityRecord[];
     if (httpResponse['value']) {
