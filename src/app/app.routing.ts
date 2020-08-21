@@ -79,17 +79,25 @@ export const routes: Routes = [
         loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
       },
       {
-        path: 'tasks',
-        loadChildren: () => import('./views/task/task.module').then(m => m.TaskModule)
-      },
-      {
         path: 'widgets',
         loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
+      },
+      {
+        path: 'tasks',
+        loadChildren: () => import('./views/task/task.module').then(m => m.TaskModule)
       },
       {
         path: 'persons',
         loadChildren: () => import('./views/person/person.module').then(m => m.PersonModule)
       },
+      {
+        path: 'machines',
+        loadChildren: () => import('./views/machine/machine.module').then(m => m.MachineModule)
+      },
+      {
+        path: 'resources',
+        loadChildren: () => import('./views/resource/resource.module').then(m => m.ResourceModule)
+      }
     ]
   },
   { path: '**', component: P404Component }
