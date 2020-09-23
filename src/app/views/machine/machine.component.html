@@ -1,0 +1,12 @@
+<app-list
+  [headerText]="'Machines'"
+  [headerColumns]="machineListHeaders"
+  [actions]="listActions"
+  (actionExecute)="machineListActionExecute($event)">
+</app-list>
+
+<app-dialog
+  [fields]="newMachineDialogFields"
+  title="Add New Machine"
+  [(isVisible)]="showNewMachineDialog">
+</app-dialog>
