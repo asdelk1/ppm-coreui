@@ -101,30 +101,6 @@ export class TaskComponent implements OnInit {
       type: 'datetime-local',
       label: 'Early Finish',
       size: InputFieldSize.large
-    },
-    {
-      name: 'lateStart',
-      type: 'datetime-local',
-      label: 'Late Start',
-      size: InputFieldSize.large
-    },
-    {
-      name: 'lateFinish',
-      type: 'datetime-local',
-      label: 'Late Finish',
-      size: InputFieldSize.large
-    },
-    {
-      name: 'freeFloat',
-      type: 'number',
-      label: 'Free Float',
-      size: InputFieldSize.large
-    },
-    {
-      name: 'totalFloat',
-      type: 'number',
-      label: 'Total Float',
-      size: InputFieldSize.large
     }
   ];
 
