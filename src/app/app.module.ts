@@ -22,6 +22,8 @@ import {ChartsModule} from 'ng2-charts';
 import {ODPClientService} from './services/odpclient.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {LoaderInterceptor} from './interceptors/loader-interceptor.service';
+import {ToastrModule} from 'ngx-toastr';
+import {ToastAlertService} from './services/toast-alert.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -45,7 +47,9 @@ const APP_CONTAINERS = [
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -55,16 +59,18 @@ const APP_CONTAINERS = [
     LoginComponent,
     RegisterComponent
   ],
-  providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy,
-  },
-    ODPClientService,
+  providers: [
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
       multi: true
-    }
+    },
+    ODPClientService,
+    ToastAlertService
   ],
   bootstrap: [AppComponent]
 })
